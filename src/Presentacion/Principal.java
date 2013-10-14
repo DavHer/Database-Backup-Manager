@@ -13,7 +13,11 @@ public class Principal extends javax.swing.JFrame {
         setTitle("Database Backcup Manager");
         Conexion c = new Conexion(this);
         conexionPanel.add(c);
-        tabPanel.setEnabledAt(1,false);
+        
+        Estrategias es = new Estrategias(this);
+        estrategiasPanel.add(es);
+        
+        //tabPanel.setEnabledAt(1,false);
     }
     
     public JTabbedPane getTabPanel()
@@ -26,7 +30,7 @@ public class Principal extends javax.swing.JFrame {
     }
 
     public JPanel getEstrategias() {
-        return estrategias;
+        return estrategiasPanel;
     }
 
     @SuppressWarnings("unchecked")
@@ -35,34 +39,22 @@ public class Principal extends javax.swing.JFrame {
 
         tabPanel = new javax.swing.JTabbedPane();
         conexionPanel = new javax.swing.JPanel();
-        estrategias = new javax.swing.JPanel();
+        estrategiasPanel = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         tabPanel.addTab("Connection", conexionPanel);
-
-        javax.swing.GroupLayout estrategiasLayout = new javax.swing.GroupLayout(estrategias);
-        estrategias.setLayout(estrategiasLayout);
-        estrategiasLayout.setHorizontalGroup(
-            estrategiasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 969, Short.MAX_VALUE)
-        );
-        estrategiasLayout.setVerticalGroup(
-            estrategiasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 479, Short.MAX_VALUE)
-        );
-
-        tabPanel.addTab("Estrategies", estrategias);
+        tabPanel.addTab("Estrategies", estrategiasPanel);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(tabPanel)
+            .addComponent(tabPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 974, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(tabPanel)
+            .addComponent(tabPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 507, Short.MAX_VALUE)
         );
 
         pack();
@@ -70,7 +62,7 @@ public class Principal extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel conexionPanel;
-    private javax.swing.JPanel estrategias;
+    private javax.swing.JPanel estrategiasPanel;
     private javax.swing.JTabbedPane tabPanel;
     // End of variables declaration//GEN-END:variables
 }

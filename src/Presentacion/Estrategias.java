@@ -10,10 +10,10 @@ package Presentacion;
  */
 public class Estrategias extends javax.swing.JPanel {
 
-    /**
-     * Creates new form Estrategias
-     */
-    public Estrategias() {
+    Principal principal;
+    
+    public Estrategias(Principal p) {
+        p = principal;
         initComponents();
     }
 
@@ -71,7 +71,7 @@ public class Estrategias extends javax.swing.JPanel {
 
         jButton3.setText("Delete");
 
-        jButton4.setText("jButton1");
+        jButton4.setText("Change Status");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -102,8 +102,8 @@ public class Estrategias extends javax.swing.JPanel {
                 .addGap(19, 19, 19)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 384, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 356, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(26, 26, 26)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
                     .addComponent(jButton2)
