@@ -10,11 +10,25 @@ package Presentacion;
  */
 public class Conectado extends javax.swing.JPanel {
 
-    Conexion conexion;
+    private Conexion conexion;
     
     public Conectado(Conexion p) {
         conexion = p;
         initComponents();
+    }
+
+    /**
+     * @return the conexion
+     */
+    public Conexion getConexion() {
+        return conexion;
+    }
+
+    /**
+     * @param conexion the conexion to set
+     */
+    public void setConexion(Conexion conexion) {
+        this.conexion = conexion;
     }
 
     /**
@@ -164,7 +178,8 @@ public class Conectado extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void newBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newBotonActionPerformed
-        // TODO add your handling code here:
+        Localizaciones l = new Localizaciones(this);
+        l.setVisible(true);
     }//GEN-LAST:event_newBotonActionPerformed
 
     private void editBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editBotonActionPerformed
