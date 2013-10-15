@@ -8,17 +8,29 @@ import javax.swing.JTabbedPane;
 public class Principal extends javax.swing.JFrame {
 
    
+    Conexion conexion;
+    Estrategias estrategias;
+    
     public Principal() {
         initComponents();
         setTitle("Database Backcup Manager");
-        Conexion c = new Conexion(this);
-        conexionPanel.add(c);
+        conexion = new Conexion(this);
+        conexionPanel.add(conexion);
         
-        Estrategias es = new Estrategias(this);
-        estrategiasPanel.add(es);
+        estrategias = new Estrategias(this);
+        estrategiasPanel.add(estrategias);
         
         //tabPanel.setEnabledAt(1,false);
     }
+
+    public Estrategias getEstrategias() {
+        return estrategias;
+    }
+
+    public Conexion getConexion() {
+        return conexion;
+    }
+    
     
     public JTabbedPane getTabPanel()
     {
@@ -29,9 +41,6 @@ public class Principal extends javax.swing.JFrame {
         return conexionPanel;
     }
 
-    public JPanel getEstrategias() {
-        return estrategiasPanel;
-    }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
