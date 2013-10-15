@@ -5,29 +5,29 @@ import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
 
-public class Principal extends javax.swing.JFrame {
+public class PrincipalGUI extends javax.swing.JFrame {
 
    
-    Conexion conexion;
-    Estrategias estrategias;
+    ConexionGUI conexion;
+    EstrategiasGUI estrategias;
     
-    public Principal() {
+    public PrincipalGUI() {
         initComponents();
         setTitle("Database Backcup Manager");
-        conexion = new Conexion(this);
+        conexion = new ConexionGUI(this);
         conexionPanel.add(conexion);
         
-        estrategias = new Estrategias(this);
+        estrategias = new EstrategiasGUI(this);
         estrategiasPanel.add(estrategias);
         
         //tabPanel.setEnabledAt(1,false);
     }
 
-    public Estrategias getEstrategias() {
+    public EstrategiasGUI getEstrategias() {
         return estrategias;
     }
 
-    public Conexion getConexion() {
+    public ConexionGUI getConexion() {
         return conexion;
     }
     

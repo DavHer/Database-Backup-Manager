@@ -8,11 +8,11 @@ package Presentacion;
  *
  * @author David-PC
  */
-public class Conectado extends javax.swing.JPanel {
+public class ConectadoGUI extends javax.swing.JPanel {
 
-    private Conexion conexion;
+    private ConexionGUI conexion;
     
-    public Conectado(Conexion p) {
+    public ConectadoGUI(ConexionGUI p) {
         conexion = p;
         initComponents();
     }
@@ -20,14 +20,14 @@ public class Conectado extends javax.swing.JPanel {
     /**
      * @return the conexion
      */
-    public Conexion getConexion() {
+    public ConexionGUI getConexion() {
         return conexion;
     }
 
     /**
      * @param conexion the conexion to set
      */
-    public void setConexion(Conexion conexion) {
+    public void setConexion(ConexionGUI conexion) {
         this.conexion = conexion;
     }
 
@@ -178,7 +178,7 @@ public class Conectado extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void newBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newBotonActionPerformed
-        Localizaciones l = new Localizaciones(this);
+        LocalizacionesGUI l = new LocalizacionesGUI(this);
         l.setVisible(true);
     }//GEN-LAST:event_newBotonActionPerformed
 

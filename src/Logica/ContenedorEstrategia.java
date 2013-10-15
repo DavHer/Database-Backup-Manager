@@ -4,7 +4,7 @@
  */
 package Logica;
 
-import Presentacion.Estrategias;
+import Presentacion.EstrategiasGUI;
 import java.util.ArrayList;
 
 /**
@@ -23,8 +23,8 @@ public class ContenedorEstrategia {
         return estrategias;
     }
     
-    public void crearEstrategia(Estrategias es,String nombre, String file, ArrayList<String> tablespaces, ArrayList<Horario> horarios, boolean fullBackup, boolean archive, boolean estatus){
-        Estrategia e = new Estrategia( es, nombre,  file,tablespaces, horarios,  fullBackup,  archive,  estatus);
+    public void crearEstrategia(EstrategiasGUI es,String nombre, String file, ArrayList<String> tablespaces, ArrayList<Horario> horarios, boolean fullBackup, boolean archive, boolean estatus,boolean usado){
+        Estrategia e = new Estrategia( es, nombre,  file,tablespaces, horarios,  fullBackup,  archive,  estatus,usado);
         e.crearRMAN();
         estrategias.add(e);
     }

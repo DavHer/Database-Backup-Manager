@@ -10,11 +10,11 @@ import Logica.Localizacion;
  *
  * @author David-PC
  */
-public class Localizaciones extends javax.swing.JFrame {
+public class LocalizacionesGUI extends javax.swing.JFrame {
 
-    Conectado conectado;
+    ConectadoGUI conectado;
     
-    public Localizaciones(Conectado c) {
+    public LocalizacionesGUI(ConectadoGUI c) {
         initComponents();
         conectado = c;
     }

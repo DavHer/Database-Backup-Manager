@@ -5,7 +5,7 @@
 package Control;
 
 
-import Presentacion.Principal;
+import Presentacion.PrincipalGUI;
 
 /**
  *
@@ -37,7 +37,7 @@ public class Control {
 //            java.util.logging.Logger.getLogger(Principal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
 //        }
         //</editor-fold>
-        Principal inter=new Principal();
+        PrincipalGUI inter=new PrincipalGUI();
         inter.setVisible(true);
     }
 }

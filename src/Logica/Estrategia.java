@@ -4,7 +4,7 @@
  */
 package Logica;
 
-import Presentacion.Estrategias;
+import Presentacion.EstrategiasGUI;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -13,17 +13,18 @@ import java.util.ArrayList;
 
 public class Estrategia implements Serializable{
     
-    String nombre;
-    String file;
-    ArrayList<String> tablespaces;
-    ArrayList<Horario> horarios;
-    boolean fullBackup;
-    boolean archive;
-    boolean estatus;
+    private String nombre;
+    private String file;
+    private ArrayList<String> tablespaces;
+    private ArrayList<Horario> horarios;
+    private boolean fullBackup;
+    private boolean archive;
+    private boolean estatus;
+    private boolean usado;
     
-    Estrategias estrategias;
+    private EstrategiasGUI estrategias;
     
-    public Estrategia(Estrategias es,String nombre, String file, ArrayList<String> tablespaces, ArrayList<Horario> horarios, boolean fullBackup, boolean archive, boolean estatus) {
+    public Estrategia(EstrategiasGUI es,String nombre, String file, ArrayList<String> tablespaces, ArrayList<Horario> horarios, boolean fullBackup, boolean archive, boolean estatus,boolean usado) {
         this.nombre = nombre;
         this.file = file;
         this.tablespaces = tablespaces;
@@ -31,31 +32,31 @@ public class Estrategia implements Serializable{
         this.fullBackup = fullBackup;
         this.archive = archive;
         this.estatus = estatus;
-        
+        this.usado = usado;
         estrategias = es;
     }
     
     public String concatenarTablespaces(){
         String ret="";
         
-        if(tablespaces.size()>0){
-            ret+=tablespaces.get(0);
-            for(int i=1;i<tablespaces.size();i++){
-                ret+=","+tablespaces.get(i);
+        if(getTablespaces().size()>0){
+            ret+=getTablespaces().get(0);
+            for(int i=1;i<getTablespaces().size();i++){
+                ret+=","+getTablespaces().get(i);
             }
         }
         return ret;
     }
     public String concatenarHorarios(){
         String ret="";
-        for(int i=0;i<horarios.size();i++){
-            ret+="#"+horarios.get(i).toString()+"\n";
+        for(int i=0;i<getHorarios().size();i++){
+            ret+="#"+getHorarios().get(i).toString()+"\n";
         }        
         return ret;
     }
     public String concatenarEstatus(){
         String ret="#inactivo";
-        if(estatus){
+        if(isEstatus()){
             ret = "#activo";
         }      
         return ret;
@@ -64,35 +65,36 @@ public class Estrategia implements Serializable{
     public void crearRMAN(){
         
         String comando="";
-        String user = estrategias.getPrincipal().getConexion().user;
-        String pass = estrategias.getPrincipal().getConexion().pass;
-        String db = estrategias.getPrincipal().getConexion().db;
+        String user = getEstrategias().getPrincipal().getConexion().user;
+        String pass = getEstrategias().getPrincipal().getConexion().pass;
+        String db = getEstrategias().getPrincipal().getConexion().db;
         
         //Ver si existe
-        File f = new File(file);
+        File f = new File(getFile());
         if(f.exists()) 
         {
             //TODO: comprobar que no se cree sobre un archivo que ya existe
         }
         else{
-            if(fullBackup){
+            if(isFullBackup()){
                 comando = "backup database spfile";
-                if(archive)
+                if(isArchive())
                     comando += " plus archivelog";
             
             }
             else
             {
                 comando = "backup tablespace "+concatenarTablespaces();
-                if(archive)
+                if(isArchive())
                     comando += " plus archivelog";
             }
             try{
-                FileWriter fstream = new FileWriter(file,true);
+                FileWriter fstream = new FileWriter(getFile(),true);
                 BufferedWriter out = new BufferedWriter(fstream);
-                String write = "#"+nombre+"\n";
+                String write = "#"+getNombre()+"\n";
                 write += concatenarHorarios();
                 write += concatenarEstatus();
+                write += usado?"usado":"nousado";
                 write += "connect target "+user+"/"+pass+"@"+db+"\n";
                 write += "run{"+comando+"}";
                 out.write(write);
@@ -105,9 +107,117 @@ public class Estrategia implements Serializable{
         }
         
     }
-    public static void main(String[] args){
-        
-        Estrategia e = new Estrategia(null,null,"estra.rman",null,null,false,false,false);
-        e.crearRMAN();
+
+    /**
+     * @return the nombre
+     */
+    public String getNombre() {
+        return nombre;
     }
+
+    /**
+     * @param nombre the nombre to set
+     */
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    /**
+     * @return the file
+     */
+    public String getFile() {
+        return file;
+    }
+
+    /**
+     * @param file the file to set
+     */
+    public void setFile(String file) {
+        this.file = file;
+    }
+
+    /**
+     * @return the tablespaces
+     */
+    public ArrayList<String> getTablespaces() {
+        return tablespaces;
+    }
+
+    /**
+     * @param tablespaces the tablespaces to set
+     */
+    public void setTablespaces(ArrayList<String> tablespaces) {
+        this.tablespaces = tablespaces;
+    }
+
+    /**
+     * @return the horarios
+     */
+    public ArrayList<Horario> getHorarios() {
+        return horarios;
+    }
+
+    /**
+     * @param horarios the horarios to set
+     */
+    public void setHorarios(ArrayList<Horario> horarios) {
+        this.horarios = horarios;
+    }
+
+    /**
+     * @return the fullBackup
+     */
+    public boolean isFullBackup() {
+        return fullBackup;
+    }
+
+    /**
+     * @param fullBackup the fullBackup to set
+     */
+    public void setFullBackup(boolean fullBackup) {
+        this.fullBackup = fullBackup;
+    }
+
+    /**
+     * @return the archive
+     */
+    public boolean isArchive() {
+        return archive;
+    }
+
+    /**
+     * @param archive the archive to set
+     */
+    public void setArchive(boolean archive) {
+        this.archive = archive;
+    }
+
+    /**
+     * @return the estatus
+     */
+    public boolean isEstatus() {
+        return estatus;
+    }
+
+    /**
+     * @param estatus the estatus to set
+     */
+    public void setEstatus(boolean estatus) {
+        this.estatus = estatus;
+    }
+
+    /**
+     * @return the estrategias
+     */
+    public EstrategiasGUI getEstrategias() {
+        return estrategias;
+    }
+
+    /**
+     * @param estrategias the estrategias to set
+     */
+    public void setEstrategias(EstrategiasGUI estrategias) {
+        this.estrategias = estrategias;
+    }
+
 }

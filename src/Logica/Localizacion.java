@@ -7,7 +7,7 @@ package Logica;
 import AccesoADatos.GlobalException;
 import AccesoADatos.NoDataException;
 import AccesoADatos.ServicioConexion;
-import Presentacion.Conectado;
+import Presentacion.ConectadoGUI;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -22,9 +22,9 @@ public class Localizacion {
     String port;
     String serviceName;
     
-    Conectado conectado;
+    ConectadoGUI conectado;
 
-    public Localizacion(Conectado c,String nombre, String usuario, String password, String host, String port, String serviceName) {
+    public Localizacion(ConectadoGUI c,String nombre, String usuario, String password, String host, String port, String serviceName) {
         this.nombre = nombre;
         this.usuario = usuario;
         this.password = password;

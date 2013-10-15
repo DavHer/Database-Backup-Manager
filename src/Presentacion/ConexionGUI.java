@@ -18,7 +18,7 @@ import javax.swing.JPanel;
  *
  * @author David
  */
-public class Conexion extends javax.swing.JPanel {
+public class ConexionGUI extends javax.swing.JPanel {
 
     public String user=null;
     public String pass=null;
@@ -27,9 +27,9 @@ public class Conexion extends javax.swing.JPanel {
     public String db;
     public JPanel panel;
     
-    public Principal principal;
+    public PrincipalGUI principal;
     
-    public Conexion(Principal p) {
+    public ConexionGUI(PrincipalGUI p) {
         principal = p;
         initComponents();
         imagenLabel.setText("");
@@ -240,12 +240,12 @@ public class Conexion extends javax.swing.JPanel {
              try {
                 exito = sc.iniciarConexion();
             } catch (Exception ex) {
-                Logger.getLogger(Conexion.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(ConexionGUI.class.getName()).log(Level.SEVERE, null, ex);
             }
 
             if(exito){
 
-                Conectado con = new Conectado(this);
+                ConectadoGUI con = new ConectadoGUI(this);
                 JPanel conPanel = principal.getConexionPanel();
                 conPanel.removeAll();
                 conPanel.add(con);

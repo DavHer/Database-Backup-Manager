@@ -4,23 +4,55 @@
  */
 package Presentacion;
 
+import Logica.ContenedorEstrategia;
+import Logica.Estrategia;
+import Logica.Horario;
+import java.util.ArrayList;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author David-PC
  */
-public class Estrategias extends javax.swing.JPanel {
+public class EstrategiasGUI extends javax.swing.JPanel {
 
-    Principal principal;
+    PrincipalGUI principal;
+    ContenedorEstrategia contenedorEstrategia;
     
-    public Estrategias(Principal p) {
+    public EstrategiasGUI(PrincipalGUI p) {
         p = principal;
         initComponents();
+        
+        contenedorEstrategia =new ContenedorEstrategia();
     }
 
-    public Principal getPrincipal() {
-        return principal;
+    public ContenedorEstrategia getContenedorEstrategia() {
+        return contenedorEstrategia;
     }
     
+    public PrincipalGUI getPrincipal() {
+        return principal;
+    }
+    public void cargarTabla(){
+        
+        //borra toda la tabla primero
+        for(int i=0;i<((DefaultTableModel)estrategyT.getModel()).getRowCount();){
+            ((DefaultTableModel)estrategyT.getModel()).removeRow(i);
+        }
+        
+        //agrega lo que haya en el arraylist
+        for(int i=0;i<contenedorEstrategia.getEstrategias().size();i++){
+            Estrategia c = contenedorEstrategia.getEstrategias().get(i);
+            String file = c.getFile();
+            String name = c.getNombre();
+            String status = c.isEstatus()?"Active":"Inactive";
+            boolean fullBackup = c.isFullBackup();
+            boolean archive = c.isArchive();
+            ArrayList<String> ts = c.getTablespaces();
+            ArrayList<Horario> hs = c.getHorarios();
+            ((DefaultTableModel)estrategyT.getModel()).addRow(new Object[]{});
+        }        
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -33,7 +65,7 @@ public class Estrategias extends javax.swing.JPanel {
 
         jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        estrategyT = new javax.swing.JTable();
         newBoton = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
@@ -41,7 +73,7 @@ public class Estrategias extends javax.swing.JPanel {
 
         jLabel1.setText("Strategies");
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        estrategyT.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -49,21 +81,28 @@ public class Estrategias extends javax.swing.JPanel {
                 "Strategy", "RMAN File", "Tablespaces", "Schedule", "Status", "Used"
             }
         ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.Object.class, java.lang.Object.class, java.lang.String.class, java.lang.Boolean.class
+            };
             boolean[] canEdit = new boolean [] {
                 false, false, false, false, true, false
             };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(jTable1);
-        jTable1.getColumnModel().getColumn(0).setPreferredWidth(150);
-        jTable1.getColumnModel().getColumn(1).setPreferredWidth(150);
-        jTable1.getColumnModel().getColumn(2).setPreferredWidth(150);
-        jTable1.getColumnModel().getColumn(3).setPreferredWidth(150);
-        jTable1.getColumnModel().getColumn(4).setPreferredWidth(50);
-        jTable1.getColumnModel().getColumn(5).setPreferredWidth(20);
+        jScrollPane1.setViewportView(estrategyT);
+        estrategyT.getColumnModel().getColumn(0).setPreferredWidth(150);
+        estrategyT.getColumnModel().getColumn(1).setPreferredWidth(150);
+        estrategyT.getColumnModel().getColumn(2).setPreferredWidth(150);
+        estrategyT.getColumnModel().getColumn(3).setPreferredWidth(150);
+        estrategyT.getColumnModel().getColumn(4).setPreferredWidth(50);
+        estrategyT.getColumnModel().getColumn(5).setPreferredWidth(20);
 
         newBoton.setText("New");
         newBoton.addActionListener(new java.awt.event.ActionListener() {
@@ -119,17 +158,17 @@ public class Estrategias extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void newBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newBotonActionPerformed
-        IMEC_Estrategia es = new IMEC_Estrategia(this);
+        CrearEditarEstrategiaGUI es = new CrearEditarEstrategiaGUI(this);
         es.setVisible(true);
     }//GEN-LAST:event_newBotonActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTable estrategyT;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
     private javax.swing.JButton newBoton;
     // End of variables declaration//GEN-END:variables
 }
