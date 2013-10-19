@@ -36,7 +36,7 @@ public class ServicioTablespace extends Servicio{
         this.db=db;
         
     }
-    public Collection listarTablas() throws GlobalException, NoDataException{      
+    public ArrayList<String> listarTablas(String net) throws GlobalException, NoDataException{      
         try {
             conectar(user, pass,ip,port,db);       
         }
@@ -50,15 +50,13 @@ public class ServicioTablespace extends Servicio{
         }      
         
         ResultSet rs=null;
-        ArrayList coleccion= new ArrayList();
+        ArrayList<String> coleccion= new ArrayList();
         Statement stmt = null;
         try{
             stmt = conexion.createStatement();      
-            rs = stmt.executeQuery(GET_TABLES_USER);
+            rs = stmt.executeQuery("select TABLE_NAME from all_tables@"+net);
              while (rs.next()) {
                  String aux = rs.getString("table_name");
-                 coleccion.add(aux);
-                 aux=rs.getString("owner");
                  coleccion.add(aux);
             }
         } catch (SQLException e) {

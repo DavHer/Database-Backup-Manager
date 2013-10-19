@@ -35,6 +35,7 @@ public class ConexionGUI extends javax.swing.JPanel {
         imagenLabel.setText("");
         imagenLabel.setIcon(new ImageIcon("src/Recursos/db_image.png"));
         asCB.setEnabled(false);
+        principal.getTabPanel().setEnabledAt(1,false);
     }
 
 
@@ -122,11 +123,6 @@ public class ConexionGUI extends javax.swing.JPanel {
         });
 
         passTF.setText("root");
-        passTF.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                passTFActionPerformed(evt);
-            }
-        });
         passTF.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 passTFKeyReleased(evt);
@@ -290,10 +286,6 @@ public class ConexionGUI extends javax.swing.JPanel {
             this.conectBoton.doClick();
         }
     }//GEN-LAST:event_passTFKeyReleased
-
-    private void passTFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_passTFActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_passTFActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox asCB;

@@ -37,6 +37,8 @@ public class Control {
 //            java.util.logging.Logger.getLogger(Principal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
 //        }
         //</editor-fold>
+        
+
         PrincipalGUI inter=new PrincipalGUI();
         inter.setVisible(true);
     }

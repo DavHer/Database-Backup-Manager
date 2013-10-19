@@ -19,6 +19,7 @@ public class PrincipalGUI extends javax.swing.JFrame {
     private String port;
     private String db;
     
+    private String currentServer="Unknow";
     private String userRemote=null;
     private String passRemote=null;
     private String ipRemote;
@@ -201,6 +202,20 @@ public class PrincipalGUI extends javax.swing.JFrame {
      */
     public void setDbRemote(String dbRemote) {
         this.dbRemote = dbRemote;
+    }
+
+    /**
+     * @return the currentServer
+     */
+    public String getCurrentServer() {
+        return currentServer;
+    }
+
+    /**
+     * @param currentServer the currentServer to set
+     */
+    public void setCurrentServer(String currentServer) {
+        this.currentServer = currentServer;
     }
 
 
