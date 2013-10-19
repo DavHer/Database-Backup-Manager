@@ -20,7 +20,7 @@ public class EstrategiasGUI extends javax.swing.JPanel {
     ContenedorEstrategia contenedorEstrategia;
     
     public EstrategiasGUI(PrincipalGUI p) {
-        p = principal;
+        principal=p;
         initComponents();
         
         contenedorEstrategia =new ContenedorEstrategia();
@@ -48,9 +48,32 @@ public class EstrategiasGUI extends javax.swing.JPanel {
             String status = c.isEstatus()?"Active":"Inactive";
             boolean fullBackup = c.isFullBackup();
             boolean archive = c.isArchive();
+            boolean used = c.isUsado();
             ArrayList<String> ts = c.getTablespaces();
             ArrayList<Horario> hs = c.getHorarios();
-            ((DefaultTableModel)estrategyT.getModel()).addRow(new Object[]{});
+            
+            String backup = "";
+            if(fullBackup){
+               backup="Full Backup"; 
+            }
+            else{
+                if(ts.size()>0){
+                    backup+=ts.get(0);
+                    for(int j=1;j<ts.size();j++){
+                        backup+=","+ts.get(j);
+                    }
+                }
+                
+            }
+            
+            String horarios="";
+            if(hs.size()>0){
+                horarios+=hs.get(0).getDia();
+                for(int j=1;j<hs.size();j++){
+                    horarios+=","+hs.get(j).getDia();
+                }
+            }
+            ((DefaultTableModel)estrategyT.getModel()).addRow(new Object[]{name,file,backup,horarios,status,used});
         }        
     }
 
@@ -67,9 +90,11 @@ public class EstrategiasGUI extends javax.swing.JPanel {
         jScrollPane1 = new javax.swing.JScrollPane();
         estrategyT = new javax.swing.JTable();
         newBoton = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        viewBoton = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
+        serverTF = new javax.swing.JTextField();
+        jLabel5 = new javax.swing.JLabel();
 
         jLabel1.setText("Strategies");
 
@@ -78,14 +103,14 @@ public class EstrategiasGUI extends javax.swing.JPanel {
 
             },
             new String [] {
-                "Strategy", "RMAN File", "Tablespaces", "Schedule", "Status", "Used"
+                "Strategy", "RMAN File", "Tablespaces", "Schedule", "Status"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.Object.class, java.lang.Object.class, java.lang.String.class, java.lang.Boolean.class
+                java.lang.String.class, java.lang.String.class, java.lang.Object.class, java.lang.Object.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, true, false
+                false, false, false, false, true
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -102,7 +127,6 @@ public class EstrategiasGUI extends javax.swing.JPanel {
         estrategyT.getColumnModel().getColumn(2).setPreferredWidth(150);
         estrategyT.getColumnModel().getColumn(3).setPreferredWidth(150);
         estrategyT.getColumnModel().getColumn(4).setPreferredWidth(50);
-        estrategyT.getColumnModel().getColumn(5).setPreferredWidth(20);
 
         newBoton.setText("New");
         newBoton.addActionListener(new java.awt.event.ActionListener() {
@@ -111,11 +135,16 @@ public class EstrategiasGUI extends javax.swing.JPanel {
             }
         });
 
-        jButton2.setText("Edit");
+        viewBoton.setText("View");
 
-        jButton3.setText("Delete");
+        jButton3.setText("Log");
 
         jButton4.setText("Change Status");
+
+        serverTF.setEditable(false);
+        serverTF.setText("Unknow");
+
+        jLabel5.setText("Server");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -124,36 +153,41 @@ public class EstrategiasGUI extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 918, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 918, Short.MAX_VALUE)
-                        .addContainerGap())
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel5)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(serverTF, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(newBoton)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jButton2)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jButton3)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jButton4)))
-                        .addGap(0, 0, Short.MAX_VALUE))))
+                        .addComponent(newBoton, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(viewBoton, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jButton4)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(19, 19, 19)
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 356, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5)
+                    .addComponent(serverTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 383, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(26, 26, 26)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(newBoton)
-                    .addComponent(jButton2)
+                    .addComponent(viewBoton)
                     .addComponent(jButton3)
                     .addComponent(jButton4))
-                .addContainerGap(29, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -164,11 +198,13 @@ public class EstrategiasGUI extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTable estrategyT;
-    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JButton newBoton;
+    private javax.swing.JTextField serverTF;
+    private javax.swing.JButton viewBoton;
     // End of variables declaration//GEN-END:variables
 }

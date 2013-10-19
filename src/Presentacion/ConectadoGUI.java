@@ -4,6 +4,15 @@
  */
 package Presentacion;
 
+import AccesoADatos.GlobalException;
+import AccesoADatos.NoDataException;
+import AccesoADatos.ServicioConexion;
+import Logica.Estrategia;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author David-PC
@@ -15,6 +24,27 @@ public class ConectadoGUI extends javax.swing.JPanel {
     public ConectadoGUI(ConexionGUI p) {
         conexion = p;
         initComponents();
+        cargarTabla();
+    }
+    
+    public void cargarTabla(){
+        
+        //borra toda la tabla primero
+        for(int i=0;i<((DefaultTableModel)locationTable.getModel()).getRowCount();){
+            ((DefaultTableModel)locationTable.getModel()).removeRow(i);
+        }
+        
+        ServicioConexion sc = new ServicioConexion(conexion.user,conexion.pass,conexion.ip,conexion.port,conexion.db);
+        ArrayList<String> links=null;
+        try {
+            links = sc.listarLinks();
+        } catch (GlobalException | NoDataException ex) {
+            Logger.getLogger(ConectadoGUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        //agrega lo que haya en el arraylist
+        for(int i=0;i<links.size();i++){
+            ((DefaultTableModel)locationTable.getModel()).addRow(new Object[]{links.get(i)});
+        }        
     }
 
     /**
@@ -53,6 +83,9 @@ public class ConectadoGUI extends javax.swing.JPanel {
         jScrollPane2 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         jButton1 = new javax.swing.JButton();
+        jCheckBox1 = new javax.swing.JCheckBox();
+        jLabel5 = new javax.swing.JLabel();
+        serverTF = new javax.swing.JTextField();
 
         jLabel1.setText("Connect to");
 
@@ -61,7 +94,7 @@ public class ConectadoGUI extends javax.swing.JPanel {
 
             },
             new String [] {
-                "Locations"
+                "Server Name"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -74,7 +107,7 @@ public class ConectadoGUI extends javax.swing.JPanel {
         });
         jScrollPane1.setViewportView(locationTable);
 
-        jLabel2.setText("Connected as:");
+        jLabel2.setText("User connected as:");
 
         usuarioLabel.setText("usuario");
 
@@ -103,7 +136,7 @@ public class ConectadoGUI extends javax.swing.JPanel {
 
             },
             new String [] {
-                "Scheme"
+                "Tablespace"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -116,7 +149,14 @@ public class ConectadoGUI extends javax.swing.JPanel {
         });
         jScrollPane2.setViewportView(jTable1);
 
-        jButton1.setText("Connect");
+        jButton1.setText("Select");
+
+        jCheckBox1.setText("Use current location");
+
+        jLabel5.setText("Server");
+
+        serverTF.setEditable(false);
+        serverTF.setText("Unknow");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -127,6 +167,8 @@ public class ConectadoGUI extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                         .addGroup(layout.createSequentialGroup()
+                            .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                             .addComponent(newBoton, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                             .addComponent(editBoton, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -139,16 +181,20 @@ public class ConectadoGUI extends javax.swing.JPanel {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(usuarioLabel)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(desconBoton, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addComponent(desconBoton, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jCheckBox1)))
                     .addComponent(jLabel1))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 408, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel3)
-                            .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addComponent(jLabel3)
+                        .addGap(0, 362, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jLabel5)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(serverTF, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -158,7 +204,9 @@ public class ConectadoGUI extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(usuarioLabel)
-                    .addComponent(desconBoton))
+                    .addComponent(desconBoton)
+                    .addComponent(jLabel5)
+                    .addComponent(serverTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(20, 20, 20)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
@@ -167,7 +215,9 @@ public class ConectadoGUI extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 315, Short.MAX_VALUE)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                .addGap(29, 29, 29)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jCheckBox1)
+                .addGap(4, 4, 4)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(deleteBoton)
                     .addComponent(editBoton)
@@ -191,14 +241,17 @@ public class ConectadoGUI extends javax.swing.JPanel {
     private javax.swing.JButton desconBoton;
     private javax.swing.JButton editBoton;
     private javax.swing.JButton jButton1;
+    private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTable1;
     private javax.swing.JTable locationTable;
     private javax.swing.JButton newBoton;
+    private javax.swing.JTextField serverTF;
     private javax.swing.JLabel usuarioLabel;
     // End of variables declaration//GEN-END:variables
 }

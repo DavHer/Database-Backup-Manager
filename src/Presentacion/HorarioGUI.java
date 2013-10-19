@@ -183,10 +183,10 @@ public class HorarioGUI extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void aceptBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_aceptBotonActionPerformed
-        String horaDe = (String)horaDeSP.getModel().getValue();
-        String horaHasta = (String)horaHastaSP.getModel().getValue();
-        String minutoDe = (String)minutoDeSP.getModel().getValue();
-        String minutoHasta = (String)minutoHastaSP.getModel().getValue();
+        int horaDe = (int)horaDeSP.getModel().getValue();
+        int horaHasta = (int)horaHastaSP.getModel().getValue();
+        int minutoDe = (int)minutoDeSP.getModel().getValue();
+        int minutoHasta = (int)minutoHastaSP.getModel().getValue();
         
         imec.getHorarios().add(new Horario(dia, horaDe+":"+minutoDe,horaHasta+":"+minutoHasta));
         imec.getScheduleT().getModel().setValueAt(horaDe+":"+minutoDe+"\n"+horaHasta+":"+minutoHasta, 0, diaC);

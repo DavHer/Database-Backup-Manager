@@ -55,9 +55,9 @@ public class Estrategia implements Serializable{
         return ret;
     }
     public String concatenarEstatus(){
-        String ret="#inactivo";
+        String ret="#inactivo\n";
         if(isEstatus()){
-            ret = "#activo";
+            ret = "#activo\n";
         }      
         return ret;
     }
@@ -65,9 +65,9 @@ public class Estrategia implements Serializable{
     public void crearRMAN(){
         
         String comando="";
-        String user = getEstrategias().getPrincipal().getConexion().user;
-        String pass = getEstrategias().getPrincipal().getConexion().pass;
-        String db = getEstrategias().getPrincipal().getConexion().db;
+        String user = estrategias.getPrincipal().getUser();
+        String pass = estrategias.getPrincipal().getPass();
+        String db = estrategias.getPrincipal().getDb();
         
         //Ver si existe
         File f = new File(getFile());
@@ -94,9 +94,9 @@ public class Estrategia implements Serializable{
                 String write = "#"+getNombre()+"\n";
                 write += concatenarHorarios();
                 write += concatenarEstatus();
-                write += usado?"usado":"nousado";
+                write += usado?"#usado\n":"#nousado\n";
                 write += "connect target "+user+"/"+pass+"@"+db+"\n";
-                write += "run{"+comando+"}";
+                write += "run{"+comando+";}";
                 out.write(write);
 
                 out.close();
@@ -108,6 +108,10 @@ public class Estrategia implements Serializable{
         
     }
 
+    public boolean isUsado() {
+        return usado;
+    }
+    
     /**
      * @return the nombre
      */

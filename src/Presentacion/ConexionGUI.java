@@ -98,6 +98,7 @@ public class ConexionGUI extends javax.swing.JPanel {
 
         jLabel1.setText("User");
 
+        userTF.setText("system");
         userTF.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 userTFActionPerformed(evt);
@@ -120,6 +121,12 @@ public class ConexionGUI extends javax.swing.JPanel {
             }
         });
 
+        passTF.setText("root");
+        passTF.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                passTFActionPerformed(evt);
+            }
+        });
         passTF.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 passTFKeyReleased(evt);
@@ -165,9 +172,7 @@ public class ConexionGUI extends javax.swing.JPanel {
                                         .addComponent(asCB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(checkMode))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(portTF, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(128, 128, 128)))))
+                            .addComponent(portTF, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 237, Short.MAX_VALUE)
                 .addComponent(imagenLabel)
                 .addContainerGap(301, Short.MAX_VALUE))
@@ -227,14 +232,14 @@ public class ConexionGUI extends javax.swing.JPanel {
         }
         else{
 
-            user = userTF.getText();
+            principal.setUser(user = userTF.getText());
             if(asCB.isEnabled()){
                 user +=" as "+(String)asCB.getSelectedItem();
             }
-            pass = passTF.getText();
-            ip = ipTF.getText();
-            port = portTF.getText();
-            db = dbTF.getText();
+            principal.setPass(pass = passTF.getText());
+            principal.setIp(ip = ipTF.getText());
+            principal.setPort(port = portTF.getText());
+            principal.setDb(db = dbTF.getText());
             boolean exito = false;
             ServicioConexion sc = new ServicioConexion(user,pass,ip,port,db);
              try {
@@ -285,6 +290,10 @@ public class ConexionGUI extends javax.swing.JPanel {
             this.conectBoton.doClick();
         }
     }//GEN-LAST:event_passTFKeyReleased
+
+    private void passTFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_passTFActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_passTFActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox asCB;

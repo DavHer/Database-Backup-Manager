@@ -1,0 +1,6 @@
+#rty
+#Monday&1:0&2:0&
+#activo
+#nousado
+connect target system/root@XE
+run{backup database spfile plus archivelog;}

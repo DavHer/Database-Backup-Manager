@@ -1,6 +1,9 @@
 
 package Presentacion;
 
+import java.awt.Dimension;
+import java.awt.Toolkit;
+import java.awt.Window;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
@@ -10,6 +13,18 @@ public class PrincipalGUI extends javax.swing.JFrame {
    
     ConexionGUI conexion;
     EstrategiasGUI estrategias;
+    private String user=null;
+    private String pass=null;
+    private String ip;
+    private String port;
+    private String db;
+    
+    private String userRemote=null;
+    private String passRemote=null;
+    private String ipRemote;
+    private String portRemote;
+    private String dbRemote;
+    
     
     public PrincipalGUI() {
         initComponents();
@@ -19,8 +34,15 @@ public class PrincipalGUI extends javax.swing.JFrame {
         
         estrategias = new EstrategiasGUI(this);
         estrategiasPanel.add(estrategias);
-        
+        centreWindow(this);
         //tabPanel.setEnabledAt(1,false);
+    }
+    
+    public static void centreWindow(Window frame) {
+        Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
+        int x = (int) ((dimension.getWidth() - frame.getWidth()) / 2);
+        int y = (int) ((dimension.getHeight() - frame.getHeight()) / 2);
+        frame.setLocation(x, y);
     }
 
     public EstrategiasGUI getEstrategias() {
@@ -39,6 +61,146 @@ public class PrincipalGUI extends javax.swing.JFrame {
 
     public JPanel getConexionPanel() {
         return conexionPanel;
+    }
+
+    /**
+     * @return the user
+     */
+    public String getUser() {
+        return user;
+    }
+
+    /**
+     * @param user the user to set
+     */
+    public void setUser(String user) {
+        this.user = user;
+    }
+
+    /**
+     * @return the pass
+     */
+    public String getPass() {
+        return pass;
+    }
+
+    /**
+     * @param pass the pass to set
+     */
+    public void setPass(String pass) {
+        this.pass = pass;
+    }
+
+    /**
+     * @return the ip
+     */
+    public String getIp() {
+        return ip;
+    }
+
+    /**
+     * @param ip the ip to set
+     */
+    public void setIp(String ip) {
+        this.ip = ip;
+    }
+
+    /**
+     * @return the port
+     */
+    public String getPort() {
+        return port;
+    }
+
+    /**
+     * @param port the port to set
+     */
+    public void setPort(String port) {
+        this.port = port;
+    }
+
+    /**
+     * @return the db
+     */
+    public String getDb() {
+        return db;
+    }
+
+    /**
+     * @param db the db to set
+     */
+    public void setDb(String db) {
+        this.db = db;
+    }
+
+    /**
+     * @return the userRemote
+     */
+    public String getUserRemote() {
+        return userRemote;
+    }
+
+    /**
+     * @param userRemote the userRemote to set
+     */
+    public void setUserRemote(String userRemote) {
+        this.userRemote = userRemote;
+    }
+
+    /**
+     * @return the passRemote
+     */
+    public String getPassRemote() {
+        return passRemote;
+    }
+
+    /**
+     * @param passRemote the passRemote to set
+     */
+    public void setPassRemote(String passRemote) {
+        this.passRemote = passRemote;
+    }
+
+    /**
+     * @return the ipRemote
+     */
+    public String getIpRemote() {
+        return ipRemote;
+    }
+
+    /**
+     * @param ipRemote the ipRemote to set
+     */
+    public void setIpRemote(String ipRemote) {
+        this.ipRemote = ipRemote;
+    }
+
+    /**
+     * @return the portRemote
+     */
+    public String getPortRemote() {
+        return portRemote;
+    }
+
+    /**
+     * @param portRemote the portRemote to set
+     */
+    public void setPortRemote(String portRemote) {
+        this.portRemote = portRemote;
+    }
+
+    /**
+     * @return the dbRemote
+     */
+    public String getDbRemote() {
+        return dbRemote;
+    }
+
+    /**
+     * @param dbRemote the dbRemote to set
+     */
+    public void setDbRemote(String dbRemote) {
+        this.dbRemote = dbRemote;
     }
 
 
