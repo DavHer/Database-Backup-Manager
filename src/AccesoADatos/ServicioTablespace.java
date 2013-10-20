@@ -23,8 +23,7 @@ public class ServicioTablespace extends Servicio{
     private String db;
     
     String OBTENERLINKS = "select db_link from all_db_links where owner!='PUBLIC'";
-    private static String GET_TABLES_USER = "select TABLE_NAME,OWNER from all_tables where owner!='SYS' and owner!='SYSTEM' and owner!='OUTLN' and owner!='TSMSYS' and owner!='DBSNMP' and owner!='CTXSYS' and owner!='XDB' and owner!='MDSYS' and owner!='HR' and owner!='FLOWS_FILES' and owner!='FLOWS_020100'";
-    private static String GET_ALL_TABLES = "select TABLE_NAME from all_tables";
+    private static String GET_TABLESPACES = "select TABLESPACE_NAME from dba_data_files";
 
     
     public ServicioTablespace(String user, String pass,String ip, String port, String db)
@@ -54,9 +53,10 @@ public class ServicioTablespace extends Servicio{
         Statement stmt = null;
         try{
             stmt = conexion.createStatement();      
-            rs = stmt.executeQuery("select TABLE_NAME from all_tables@"+net);
+            rs = stmt.executeQuery(GET_TABLESPACES+"@"+net);
+            System.out.println(GET_TABLESPACES+"@"+net);
              while (rs.next()) {
-                 String aux = rs.getString("table_name");
+                 String aux = rs.getString("TABLESPACE_NAME");
                  coleccion.add(aux);
             }
         } catch (SQLException e) {

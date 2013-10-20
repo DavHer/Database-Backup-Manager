@@ -11,6 +11,7 @@ import AccesoADatos.ServicioTablespace;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.table.DefaultTableModel;
 
@@ -137,6 +138,11 @@ public class ConectadoGUI extends javax.swing.JPanel {
         });
 
         deleteBoton.setText("Delete");
+        deleteBoton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                deleteBotonActionPerformed(evt);
+            }
+        });
 
         editBoton.setText("Edit");
         editBoton.addActionListener(new java.awt.event.ActionListener() {
@@ -299,7 +305,10 @@ public class ConectadoGUI extends javax.swing.JPanel {
             
                 ServicioTablespace st = new ServicioTablespace(conexion.user,conexion.pass,conexion.ip,conexion.port,conexion.db);
                 ArrayList<String> lista = st.listarTablas(server);
-
+                
+                for(int i=0;i<((DefaultTableModel)tablespaceTable.getModel()).getRowCount();){
+                    ((DefaultTableModel)tablespaceTable.getModel()).removeRow(i);
+                }
                 for(int i=0;i<lista.size();i++){
                     ((DefaultTableModel)tablespaceTable.getModel()).addRow(new Object[]{lista.get(i)});
                 }
@@ -342,11 +351,19 @@ public class ConectadoGUI extends javax.swing.JPanel {
             String server = (String)serverTable.getModel().getValueAt(index, 0);
             conexion.principal.setCurrentServer(server);
             serverTF.setText(server);
+            conexion.principal.estrategias.getServerTF().setText(server);
+            conexion.principal.estrategias.cargarArchivo();
+            conexion.principal.estrategias.filtrarEstrategias();
+            conexion.principal.estrategias.cargarTabla();
             conexion.principal.getTabPanel().setEnabledAt(1,true);
         }
         if(currentCheck.isSelected()){
             conexion.principal.setCurrentServer(conexion.db);
             serverTF.setText(conexion.db);
+            conexion.principal.estrategias.getServerTF().setText(conexion.db);
+            conexion.principal.estrategias.cargarArchivo();
+            conexion.principal.estrategias.filtrarEstrategias();
+            conexion.principal.estrategias.cargarTabla();
             conexion.principal.getTabPanel().setEnabledAt(1,true);
         }
     }//GEN-LAST:event_selectBotonActionPerformed
@@ -359,6 +376,31 @@ public class ConectadoGUI extends javax.swing.JPanel {
         conPanel.add(con);
         conPanel.validate();
     }//GEN-LAST:event_desconectBotonActionPerformed
+
+    private void deleteBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteBotonActionPerformed
+        int index = serverTable.getSelectedRow();
+        if(index>=0&&!currentCheck.isSelected()){
+            String server = (String)serverTable.getModel().getValueAt(index, 0);
+            ServicioConexion sc = new ServicioConexion(conexion.user, conexion.pass, conexion.ip, conexion.port, conexion.db);
+            boolean exito = false;
+            try {
+                Object[] options = {"Yes", "No"};
+                int op = JOptionPane.showOptionDialog(this, "Do you want to delete server " + server + "?", "Delete Server", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[1]);
+
+                if (op == 0) {
+                    exito = sc.dropLink(server);
+                    cargarTabla();
+                } 
+            } catch (    GlobalException | NoDataException ex) {
+                exito = false;
+                Logger.getLogger(ConectadoGUI.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+            if(exito){
+                JOptionPane.showMessageDialog(this, "The server "+server+" has been deleted");
+            }
+        }
+    }//GEN-LAST:event_deleteBotonActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JCheckBox currentCheck;

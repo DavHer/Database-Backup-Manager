@@ -178,7 +178,7 @@ public class ServersGUI extends javax.swing.JFrame {
         
         Localizacion l = new Localizacion(conectado,nombre,user,pass,host,port,service);
         l.CrearLink();
-        
+        conectado.cargarTabla();
         this.dispose();
     }//GEN-LAST:event_createBotonActionPerformed
 

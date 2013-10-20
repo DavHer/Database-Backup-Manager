@@ -23,21 +23,26 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" attributes="0">
+          <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="0" attributes="0">
-                      <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                  <Group type="102" attributes="0">
+                      <Component id="aceptBoton" min="-2" pref="71" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="diaLabel" min="-2" max="-2" attributes="0"/>
+                      <Component id="cancelBoton" pref="71" max="32767" attributes="0"/>
                   </Group>
-                  <Group type="103" alignment="0" groupAlignment="1" attributes="0">
-                      <Group type="102" alignment="0" attributes="0">
-                          <Component id="aceptBoton" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Component id="cancelBoton" min="-2" pref="65" max="-2" attributes="0"/>
+                  <Group type="102" attributes="0">
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="jLabel1" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="jLabel2" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="jLabel3" alignment="0" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <Component id="jPanel1" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                          <Component id="diaCB" pref="102" max="32767" attributes="0"/>
+                          <Component id="fromSpinner" max="32767" attributes="0"/>
+                          <Component id="toSpinner" max="32767" attributes="0"/>
+                      </Group>
                   </Group>
               </Group>
               <EmptySpace max="32767" attributes="0"/>
@@ -47,145 +52,40 @@
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
-              <EmptySpace min="-2" pref="22" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="jLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="diaLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="diaCB" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
-              <Component id="jPanel1" min="-2" max="-2" attributes="0"/>
-              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="jLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="fromSpinner" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="jLabel3" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="toSpinner" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace type="separate" max="32767" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="aceptBoton" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="cancelBoton" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace max="32767" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
   </Layout>
   <SubComponents>
-    <Component class="javax.swing.JLabel" name="jLabel1">
+    <Component class="javax.swing.JButton" name="cancelBoton">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Day:"/>
+        <Property name="text" type="java.lang.String" value="Cancel"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cancelBotonActionPerformed"/>
+      </Events>
     </Component>
-    <Component class="javax.swing.JLabel" name="diaLabel">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="dia.."/>
-      </Properties>
-    </Component>
-    <Container class="javax.swing.JPanel" name="jPanel1">
-      <Properties>
-        <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
-          <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
-            <TitledBorder title="Hours (24)"/>
-          </Border>
-        </Property>
-      </Properties>
-
-      <Layout>
-        <DimensionLayout dim="0">
-          <Group type="103" groupAlignment="0" attributes="0">
-              <Group type="102" attributes="0">
-                  <EmptySpace max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                      <Group type="102" attributes="0">
-                          <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                          <Component id="horaDeSP" min="-2" pref="36" max="-2" attributes="0"/>
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Component id="minutoDeSP" min="-2" pref="32" max="-2" attributes="0"/>
-                      </Group>
-                      <Group type="102" attributes="0">
-                          <Component id="jLabel6" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace max="32767" attributes="0"/>
-                          <Component id="horaHastaSP" min="-2" pref="36" max="-2" attributes="0"/>
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Component id="jLabel5" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Component id="minutoHastaSP" min="-2" pref="32" max="-2" attributes="0"/>
-                      </Group>
-                  </Group>
-                  <EmptySpace max="32767" attributes="0"/>
-              </Group>
-          </Group>
-        </DimensionLayout>
-        <DimensionLayout dim="1">
-          <Group type="103" groupAlignment="0" attributes="0">
-              <Group type="102" alignment="0" attributes="0">
-                  <EmptySpace max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="jLabel3" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="minutoDeSP" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="jLabel4" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="horaDeSP" alignment="3" min="-2" max="-2" attributes="0"/>
-                  </Group>
-                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="jLabel6" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="minutoHastaSP" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="jLabel5" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="horaHastaSP" alignment="3" min="-2" max="-2" attributes="0"/>
-                  </Group>
-                  <EmptySpace max="32767" attributes="0"/>
-              </Group>
-          </Group>
-        </DimensionLayout>
-      </Layout>
-      <SubComponents>
-        <Component class="javax.swing.JLabel" name="jLabel3">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="From:"/>
-          </Properties>
-        </Component>
-        <Component class="javax.swing.JSpinner" name="minutoDeSP">
-          <Properties>
-            <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
-              <SpinnerModel initial="0" maximum="59" minimum="0" numberType="java.lang.Integer" stepSize="1" type="number"/>
-            </Property>
-          </Properties>
-        </Component>
-        <Component class="javax.swing.JLabel" name="jLabel4">
-          <Properties>
-            <Property name="text" type="java.lang.String" value=":"/>
-          </Properties>
-        </Component>
-        <Component class="javax.swing.JSpinner" name="horaDeSP">
-          <Properties>
-            <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
-              <SpinnerModel initial="0" maximum="24" minimum="0" numberType="java.lang.Integer" stepSize="1" type="number"/>
-            </Property>
-          </Properties>
-        </Component>
-        <Component class="javax.swing.JLabel" name="jLabel5">
-          <Properties>
-            <Property name="text" type="java.lang.String" value=":"/>
-          </Properties>
-        </Component>
-        <Component class="javax.swing.JSpinner" name="minutoHastaSP">
-          <Properties>
-            <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
-              <SpinnerModel initial="0" maximum="59" minimum="0" numberType="java.lang.Integer" stepSize="1" type="number"/>
-            </Property>
-          </Properties>
-        </Component>
-        <Component class="javax.swing.JLabel" name="jLabel6">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="To:"/>
-          </Properties>
-        </Component>
-        <Component class="javax.swing.JSpinner" name="horaHastaSP">
-          <Properties>
-            <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
-              <SpinnerModel initial="0" maximum="24" minimum="0" numberType="java.lang.Integer" stepSize="1" type="number"/>
-            </Property>
-          </Properties>
-        </Component>
-      </SubComponents>
-    </Container>
     <Component class="javax.swing.JButton" name="aceptBoton">
       <Properties>
         <Property name="text" type="java.lang.String" value="Acept"/>
@@ -194,13 +94,39 @@
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="aceptBotonActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="cancelBoton">
+    <Component class="javax.swing.JLabel" name="jLabel1">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Cancel"/>
+        <Property name="text" type="java.lang.String" value="Day:"/>
       </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cancelBotonActionPerformed"/>
-      </Events>
+    </Component>
+    <Component class="javax.swing.JComboBox" name="diaCB">
+      <Properties>
+        <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+          <StringArray count="7">
+            <StringItem index="0" value="Monday"/>
+            <StringItem index="1" value="Thuesday"/>
+            <StringItem index="2" value="Wednesday"/>
+            <StringItem index="3" value="Thursday"/>
+            <StringItem index="4" value="Friday"/>
+            <StringItem index="5" value="Saturday"/>
+            <StringItem index="6" value="Sunday"/>
+          </StringArray>
+        </Property>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="jLabel2">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="From:"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JSpinner" name="fromSpinner">
+    </Component>
+    <Component class="javax.swing.JLabel" name="jLabel3">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="To:"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JSpinner" name="toSpinner">
     </Component>
   </SubComponents>
 </Form>

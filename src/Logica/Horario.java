@@ -5,6 +5,7 @@
 package Logica;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 
 public class Horario implements Serializable {
@@ -18,6 +19,23 @@ public class Horario implements Serializable {
         this.de = de;
         this.hasta = hasta;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        Horario h = (Horario)obj;
+        return dia.equals(h.getDia())&&de.equals(h.getDe())&&hasta.equals(h.getHasta());
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 97 * hash + Objects.hashCode(this.dia);
+        hash = 97 * hash + Objects.hashCode(this.de);
+        hash = 97 * hash + Objects.hashCode(this.hasta);
+        return hash;
+    }
+    
+    
 
     public String getDe() {
         return de;

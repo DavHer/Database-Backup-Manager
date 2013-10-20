@@ -7,7 +7,13 @@ package Presentacion;
 import Logica.ContenedorEstrategia;
 import Logica.Estrategia;
 import Logica.Horario;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -24,8 +30,56 @@ public class EstrategiasGUI extends javax.swing.JPanel {
         initComponents();
         
         contenedorEstrategia =new ContenedorEstrategia();
+        
+    }
+    public void filtrarEstrategias(){
+        
+         for(int i=0;i<contenedorEstrategia.getEstrategias().size();i++){
+             System.out.println(contenedorEstrategia.getEstrategias().get(i).server+" "+serverTF.getText());
+             if(!contenedorEstrategia.getEstrategias().get(i).server.equals(serverTF.getText())){
+                 contenedorEstrategia.getEstrategias().remove(i);
+                 i--;
+             }
+         }
+    }
+    public void cargarArchivo(){
+        try
+        {
+           FileInputStream fileIn = new FileInputStream("strategies.txt");
+           ObjectInputStream in = new ObjectInputStream(fileIn);
+           ContenedorEstrategia cla;
+           cla = (ContenedorEstrategia) in.readObject();
+           if(cla!=null){
+               contenedorEstrategia = cla;
+           }
+           in.close();
+           fileIn.close();
+        }catch(  IOException | ClassNotFoundException i)
+        {
+           i.printStackTrace();
+        }
+    }
+    
+    public void guardarArchivo(){
+        try {
+            FileOutputStream fileOut = new FileOutputStream("strategies.txt");
+            ObjectOutputStream out = new ObjectOutputStream(fileOut);
+
+            out.writeObject(contenedorEstrategia);
+           
+            out.close();
+            fileOut.close();
+            System.out.printf("Serialized data is saved in strategies.txt");
+        } catch (IOException i) {
+            i.printStackTrace();
+        }
+
     }
 
+    public JTextField getServerTF() {
+        return serverTF;
+    }
+    
     public ContenedorEstrategia getContenedorEstrategia() {
         return contenedorEstrategia;
     }
@@ -49,7 +103,7 @@ public class EstrategiasGUI extends javax.swing.JPanel {
             boolean fullBackup = c.isFullBackup();
             boolean archive = c.isArchive();
             boolean used = c.isUsado();
-            ArrayList<String> ts = c.getTablespaces();
+            //ArrayList<String> ts = c.getTablespaces();
             ArrayList<Horario> hs = c.getHorarios();
             
             String backup = "";
@@ -57,13 +111,7 @@ public class EstrategiasGUI extends javax.swing.JPanel {
                backup="Full Backup"; 
             }
             else{
-                if(ts.size()>0){
-                    backup+=ts.get(0);
-                    for(int j=1;j<ts.size();j++){
-                        backup+=","+ts.get(j);
-                    }
-                }
-                
+               backup = "Partial";
             }
             
             String horarios="";
@@ -73,7 +121,7 @@ public class EstrategiasGUI extends javax.swing.JPanel {
                     horarios+=","+hs.get(j).getDia();
                 }
             }
-            ((DefaultTableModel)estrategyT.getModel()).addRow(new Object[]{name,file,backup,horarios,status,used});
+            ((DefaultTableModel)estrategyT.getModel()).addRow(new Object[]{name,file,backup,horarios,status});
         }        
     }
 
@@ -96,6 +144,12 @@ public class EstrategiasGUI extends javax.swing.JPanel {
         serverTF = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
 
+        addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                formFocusGained(evt);
+            }
+        });
+
         jLabel1.setText("Strategies");
 
         estrategyT.setModel(new javax.swing.table.DefaultTableModel(
@@ -103,7 +157,7 @@ public class EstrategiasGUI extends javax.swing.JPanel {
 
             },
             new String [] {
-                "Strategy", "RMAN File", "Tablespaces", "Schedule", "Status"
+                "Strategy", "RMAN File", "Type", "Schedule", "Status"
             }
         ) {
             Class[] types = new Class [] {
@@ -195,6 +249,10 @@ public class EstrategiasGUI extends javax.swing.JPanel {
         CrearEditarEstrategiaGUI es = new CrearEditarEstrategiaGUI(this);
         es.setVisible(true);
     }//GEN-LAST:event_newBotonActionPerformed
+
+    private void formFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_formFocusGained
+
+    }//GEN-LAST:event_formFocusGained
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTable estrategyT;

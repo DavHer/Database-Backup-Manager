@@ -21,10 +21,11 @@ public class Estrategia implements Serializable{
     private boolean archive;
     private boolean estatus;
     private boolean usado;
+    public String server;
+    public String inFile;
     
-    private EstrategiasGUI estrategias;
     
-    public Estrategia(EstrategiasGUI es,String nombre, String file, ArrayList<String> tablespaces, ArrayList<Horario> horarios, boolean fullBackup, boolean archive, boolean estatus,boolean usado) {
+    public Estrategia(String nombre, String file, ArrayList<String> tablespaces, ArrayList<Horario> horarios, boolean fullBackup, boolean archive, boolean estatus,boolean usado) {
         this.nombre = nombre;
         this.file = file;
         this.tablespaces = tablespaces;
@@ -33,7 +34,6 @@ public class Estrategia implements Serializable{
         this.archive = archive;
         this.estatus = estatus;
         this.usado = usado;
-        estrategias = es;
     }
     
     public String concatenarTablespaces(){
@@ -62,12 +62,12 @@ public class Estrategia implements Serializable{
         return ret;
     }
     
-    public void crearRMAN(){
+    public void crearRMAN(EstrategiasGUI es){
         
         String comando="";
-        String user = estrategias.getPrincipal().getUser();
-        String pass = estrategias.getPrincipal().getPass();
-        String db = estrategias.getPrincipal().getDb();
+        String user = es.getPrincipal().getUser();
+        String pass = es.getPrincipal().getPass();
+        String db = es.getPrincipal().getCurrentServer();
         
         //Ver si existe
         File f = new File(getFile());
@@ -91,12 +91,15 @@ public class Estrategia implements Serializable{
             try{
                 FileWriter fstream = new FileWriter(getFile(),true);
                 BufferedWriter out = new BufferedWriter(fstream);
-                String write = "#"+getNombre()+"\n";
+                server = db;
+                String write = "#Server:"+db+"\n";
+                write += "#"+getNombre()+"\n";
                 write += concatenarHorarios();
                 write += concatenarEstatus();
                 write += usado?"#usado\n":"#nousado\n";
                 write += "connect target "+user+"/"+pass+"@"+db+"\n";
                 write += "run{"+comando+";}";
+                inFile = write;
                 out.write(write);
 
                 out.close();
@@ -210,18 +213,7 @@ public class Estrategia implements Serializable{
         this.estatus = estatus;
     }
 
-    /**
-     * @return the estrategias
-     */
-    public EstrategiasGUI getEstrategias() {
-        return estrategias;
-    }
 
-    /**
-     * @param estrategias the estrategias to set
-     */
-    public void setEstrategias(EstrategiasGUI estrategias) {
-        this.estrategias = estrategias;
-    }
+
 
 }

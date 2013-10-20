@@ -140,4 +140,50 @@ public class ServicioConexion extends Servicio {
         }
         return coleccion;
     }
+    
+    public boolean dropLink(String name) throws GlobalException, NoDataException{      
+        try {
+            conectar(user, pass,ip,port,db);       
+        }
+        catch(ClassNotFoundException ex)
+        {
+            throw new GlobalException("No se ha localizado el Driver");
+        }
+        
+        catch (SQLException e) {
+            throw new NoDataException("La base de datos no se encuentra disponible");
+        }      
+        
+        ResultSet rs=null;
+        Statement stmt = null;
+        try{
+            stmt = conexion.createStatement(); 
+            String ss = "DROP DATABASE LINK " + name ;
+            System.out.println(ss);
+            rs = stmt.executeQuery(ss);
+             
+        } catch (SQLException e) {
+            
+            e.printStackTrace();
+          
+            throw new GlobalException("Sentencia no valida");
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+                if (stmt != null) {
+                    stmt.close();
+                }
+                desconectar();
+                return true;
+            } catch (SQLException e) {
+                throw new GlobalException("Estatutos invalidos o nulos");
+            }
+        }
+        
+    }
+
 }
+
+
