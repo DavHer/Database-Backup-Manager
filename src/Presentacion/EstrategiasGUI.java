@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
@@ -113,7 +114,9 @@ public class EstrategiasGUI extends javax.swing.JPanel {
             else{
                backup = "Partial";
             }
-            
+            if(c.incremental){
+                backup+=" Incremental";
+            }
             String horarios="";
             if(hs.size()>0){
                 horarios+=hs.get(0).getDia();
@@ -190,10 +193,20 @@ public class EstrategiasGUI extends javax.swing.JPanel {
         });
 
         viewBoton.setText("View");
+        viewBoton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                viewBotonActionPerformed(evt);
+            }
+        });
 
         jButton3.setText("Log");
 
         jButton4.setText("Change Status");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
 
         serverTF.setEditable(false);
         serverTF.setText("Unknow");
@@ -253,6 +266,56 @@ public class EstrategiasGUI extends javax.swing.JPanel {
     private void formFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_formFocusGained
 
     }//GEN-LAST:event_formFocusGained
+
+    private void viewBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_viewBotonActionPerformed
+        int index = estrategyT.getSelectedRow();
+        if(index>=0){
+            
+            String est = (String)estrategyT.getModel().getValueAt(index, 0);
+            Estrategia e = null;
+            for(int i=0;i<contenedorEstrategia.getEstrategias().size();i++){
+                if(contenedorEstrategia.getEstrategias().get(i).getNombre().equals(est)){
+                    e = contenedorEstrategia.getEstrategias().get(i);
+                    break;
+                }
+            }
+            if(e!=null){
+                VerEstrategiaGUI v = new VerEstrategiaGUI(e.inFile,e.server);
+                v.setVisible(true);
+            }
+        }
+        else{
+            JOptionPane.showMessageDialog(this, "Select a strategy", "Error", JOptionPane.WARNING_MESSAGE);
+        }
+        
+    }//GEN-LAST:event_viewBotonActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        
+        int index = estrategyT.getSelectedRow();
+        if(index>=0){
+            String nombre = (String)estrategyT.getModel().getValueAt(index,0);
+            for(int i=0;i<contenedorEstrategia.getEstrategias().size();i++){
+                if(contenedorEstrategia.getEstrategias().get(i).getNombre().equals(nombre)){
+                    boolean status = contenedorEstrategia.getEstrategias().get(i).isEstatus();
+                    if(status){
+                        contenedorEstrategia.getEstrategias().get(i).setEstatus(false);
+                        estrategyT.getModel().setValueAt("Inactive", index, 4);
+                    }
+                    else{
+                        contenedorEstrategia.getEstrategias().get(i).setEstatus(true);
+                        estrategyT.getModel().setValueAt("Active", index, 4);
+                    }
+                    guardarArchivo();
+                    break;
+                }
+            }
+        }
+        else{
+            JOptionPane.showMessageDialog(this, "Select a strategy", "Error", JOptionPane.WARNING_MESSAGE);
+        }
+        
+    }//GEN-LAST:event_jButton4ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTable estrategyT;

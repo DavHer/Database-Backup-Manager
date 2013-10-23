@@ -23,9 +23,11 @@ public class Estrategia implements Serializable{
     private boolean usado;
     public String server;
     public String inFile;
+    public boolean incremental;
+    public int inc;
     
     
-    public Estrategia(String nombre, String file, ArrayList<String> tablespaces, ArrayList<Horario> horarios, boolean fullBackup, boolean archive, boolean estatus,boolean usado) {
+    public Estrategia(String nombre, String file, ArrayList<String> tablespaces, ArrayList<Horario> horarios, boolean fullBackup, boolean archive, boolean estatus,boolean usado,boolean incremental, int ince) {
         this.nombre = nombre;
         this.file = file;
         this.tablespaces = tablespaces;
@@ -34,6 +36,8 @@ public class Estrategia implements Serializable{
         this.archive = archive;
         this.estatus = estatus;
         this.usado = usado;
+        this.incremental = incremental;
+        this.inc = ince;
     }
     
     public String concatenarTablespaces(){
@@ -76,29 +80,33 @@ public class Estrategia implements Serializable{
             //TODO: comprobar que no se cree sobre un archivo que ya existe
         }
         else{
+            if(incremental){
+                comando += "incremental level "+inc+" ";
+            }
             if(isFullBackup()){
-                comando = "backup database spfile";
+                comando += "database spfile ";
                 if(isArchive())
-                    comando += " plus archivelog";
+                    comando += "plus archivelog";
             
             }
             else
             {
-                comando = "backup tablespace "+concatenarTablespaces();
+                comando += "tablespace "+concatenarTablespaces();
                 if(isArchive())
-                    comando += " plus archivelog";
+                    comando += " plus archivelog ";
             }
             try{
                 FileWriter fstream = new FileWriter(getFile(),true);
                 BufferedWriter out = new BufferedWriter(fstream);
                 server = db;
-                String write = "#Server:"+db+"\n";
-                write += "#"+getNombre()+"\n";
-                write += concatenarHorarios();
-                write += concatenarEstatus();
-                write += usado?"#usado\n":"#nousado\n";
+                //String write = "#Server:"+db+"\n";
+                //write += "#"+getNombre()+"\n";
+                //write += concatenarHorarios();
+                //write += concatenarEstatus();
+                //write += usado?"#usado\n":"#nousado\n";
+                String write="";
                 write += "connect target "+user+"/"+pass+"@"+db+"\n";
-                write += "run{"+comando+";}";
+                write += "run{backup "+comando+";}";
                 inFile = write;
                 out.write(write);
 

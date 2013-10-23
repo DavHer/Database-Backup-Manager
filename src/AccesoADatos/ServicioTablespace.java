@@ -53,7 +53,7 @@ public class ServicioTablespace extends Servicio{
         Statement stmt = null;
         try{
             stmt = conexion.createStatement();      
-            rs = stmt.executeQuery(GET_TABLESPACES+"@"+net);
+            rs = stmt.executeQuery(GET_TABLESPACES+"@"+net+" where TABLESPACE_NAME != 'UNDO'");
             System.out.println(GET_TABLESPACES+"@"+net);
              while (rs.next()) {
                  String aux = rs.getString("TABLESPACE_NAME");

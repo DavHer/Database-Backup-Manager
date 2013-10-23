@@ -24,8 +24,8 @@ public class ContenedorEstrategia implements Serializable{
         return estrategias;
     }
     
-    public void crearEstrategia(EstrategiasGUI es,String nombre, String file, ArrayList<String> tablespaces, ArrayList<Horario> horarios, boolean fullBackup, boolean archive, boolean estatus,boolean usado){
-        Estrategia e = new Estrategia(nombre,  file,tablespaces, horarios,  fullBackup,  archive,  estatus,usado);
+    public void crearEstrategia(EstrategiasGUI es,String nombre, String file, ArrayList<String> tablespaces, ArrayList<Horario> horarios, boolean fullBackup, boolean archive, boolean estatus,boolean usado, boolean inc, int incr){
+        Estrategia e = new Estrategia(nombre,  file,tablespaces, horarios,  fullBackup,  archive,  estatus,usado,inc, incr);
         e.crearRMAN(es);
         estrategias.add(e);
     }

@@ -110,6 +110,8 @@ public class CrearEditarEstrategiaGUI extends javax.swing.JFrame {
         clearAllBoton = new javax.swing.JButton();
         selectAllBoton = new javax.swing.JButton();
         deleteScheduleBoton = new javax.swing.JButton();
+        incremetalCB = new javax.swing.JComboBox();
+        incremetalCheck = new javax.swing.JCheckBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
@@ -238,6 +240,10 @@ public class CrearEditarEstrategiaGUI extends javax.swing.JFrame {
             }
         });
 
+        incremetalCB.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "0", "1" }));
+
+        incremetalCheck.setText("Incremental:");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -261,10 +267,6 @@ public class CrearEditarEstrategiaGUI extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(fullCB)
-                                .addGap(9, 9, 9)
-                                .addComponent(archiveCB))
-                            .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel1)
                                     .addComponent(jLabel2))
@@ -282,7 +284,15 @@ public class CrearEditarEstrategiaGUI extends javax.swing.JFrame {
                                 .addComponent(aceptBoton, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(fullCB)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(archiveCB)
+                        .addGap(187, 187, 187)
+                        .addComponent(incremetalCheck)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(incremetalCB, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -300,12 +310,14 @@ public class CrearEditarEstrategiaGUI extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(fullCB)
-                    .addComponent(archiveCB))
+                    .addComponent(archiveCB)
+                    .addComponent(incremetalCB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(incremetalCheck))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 25, Short.MAX_VALUE)
                         .addComponent(jLabel4)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -340,8 +352,10 @@ public class CrearEditarEstrategiaGUI extends javax.swing.JFrame {
         boolean statusB = status.equals("Active");
         boolean fullBackup = fullCB.isSelected();
         boolean archive = archiveCB.isSelected();
-        
-        Estrategia e = new Estrategia(name,file,getTablespaces(),horarios,fullBackup,archive,statusB,false);
+        boolean incremental = incremetalCheck.isSelected();
+        int inc = Integer.parseInt((String)incremetalCB.getSelectedItem());
+        System.out.println(">>>>>>>>>>>>>>>>>>>>>>"+incremental);
+        Estrategia e = new Estrategia(name,file,getTablespaces(),horarios,fullBackup,archive,statusB,false,incremental,inc);
         e.crearRMAN(estrategias);
         estrategias.getContenedorEstrategia().getEstrategias().add(e);
         estrategias.filtrarEstrategias();
@@ -427,6 +441,8 @@ public class CrearEditarEstrategiaGUI extends javax.swing.JFrame {
     private javax.swing.JButton deleteScheduleBoton;
     private javax.swing.JTextField fileTF;
     private javax.swing.JCheckBox fullCB;
+    private javax.swing.JComboBox incremetalCB;
+    private javax.swing.JCheckBox incremetalCheck;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
