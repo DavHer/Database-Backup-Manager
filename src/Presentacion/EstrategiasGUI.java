@@ -23,7 +23,7 @@ import javax.swing.table.DefaultTableModel;
  */
 public class EstrategiasGUI extends javax.swing.JPanel {
 
-    PrincipalGUI principal;
+    public PrincipalGUI principal;
     ContenedorEstrategia contenedorEstrategia;
     
     public EstrategiasGUI(PrincipalGUI p) {

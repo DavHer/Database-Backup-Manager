@@ -370,6 +370,7 @@ public class ConectadoGUI extends javax.swing.JPanel {
 
     private void desconectBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_desconectBotonActionPerformed
         
+        conexion.principal.getTabPanel().setEnabledAt(2,false);
         ConexionGUI con =new ConexionGUI(conexion.principal);
         JPanel conPanel = conexion.principal.getConexionPanel();
         conPanel.removeAll();

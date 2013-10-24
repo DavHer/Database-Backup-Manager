@@ -245,7 +245,8 @@ public class ConexionGUI extends javax.swing.JPanel {
             }
 
             if(exito){
-
+                principal.getTabPanel().setEnabledAt(2,true);
+                principal.cargarTabla();
                 ConectadoGUI con = new ConectadoGUI(this);
                 JPanel conPanel = principal.getConexionPanel();
                 conPanel.removeAll();

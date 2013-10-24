@@ -1,2 +1,0 @@
-connect target system/root@PRUEBA
-run{backup incremental level 1 tablespace USERS,SYSAUX,UNDO,SYSTEM plus archivelog ;}

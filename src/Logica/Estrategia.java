@@ -73,6 +73,26 @@ public class Estrategia implements Serializable{
         String pass = es.getPrincipal().getPass();
         String db = es.getPrincipal().getCurrentServer();
         
+        Configuracion c=null;
+        if(db.equals("XE")){
+            c = es.principal.getConfiguraciones().configLocal;
+        }
+        else{
+            c = es.principal.getConfiguraciones().buscar(db);
+        }
+        String spool="";
+        String dirBackup="";
+        String dirFile="";
+        if(c!=null){
+            dirFile=c.getRMANScriptDir();
+            spool += "SPOOL LOG to '"+c.getRMANLogDir()+"\\"+nombre+".txt' append;";
+            System.out.println(spool);
+            
+            dirBackup= "CONFIGURE CONTROLFILE AUTOBACKUP ON;\n" +
+                       "CONFIGURE CONTROLFILE AUTOBACKUP FORMAT FOR DEVICE TYPE DISK TO '"+c.getBackupDir()+"\\cf%F';";
+            System.out.println(dirBackup);
+        }
+        
         //Ver si existe
         File f = new File(getFile());
         if(f.exists()) 
@@ -85,6 +105,9 @@ public class Estrategia implements Serializable{
             }
             if(isFullBackup()){
                 comando += "database spfile ";
+                if(c!=null){
+                    comando += "FORMAT '"+c.getBackupDir()+"\\%U' ";
+                }
                 if(isArchive())
                     comando += "plus archivelog";
             
@@ -92,21 +115,23 @@ public class Estrategia implements Serializable{
             else
             {
                 comando += "tablespace "+concatenarTablespaces();
+                if(c!=null){
+                    comando += " FORMAT '"+c.getBackupDir()+"\\%U' ";
+                }
                 if(isArchive())
                     comando += " plus archivelog ";
             }
             try{
-                FileWriter fstream = new FileWriter(getFile(),true);
+                FileWriter fstream = new FileWriter(dirFile+"\\"+getFile(),true);
+                System.out.println(dirFile+getFile());
                 BufferedWriter out = new BufferedWriter(fstream);
                 server = db;
-                //String write = "#Server:"+db+"\n";
-                //write += "#"+getNombre()+"\n";
-                //write += concatenarHorarios();
-                //write += concatenarEstatus();
-                //write += usado?"#usado\n":"#nousado\n";
                 String write="";
                 write += "connect target "+user+"/"+pass+"@"+db+"\n";
-                write += "run{backup "+comando+";}";
+                write += spool+"\n";
+                write += "run{\n";
+                write += dirBackup+"\n";
+                write += "backup "+comando+";}";
                 inFile = write;
                 out.write(write);
 
