@@ -352,7 +352,7 @@ public class ConectadoGUI extends javax.swing.JPanel {
             conexion.principal.setCurrentServer(server);
             serverTF.setText(server);
             conexion.principal.estrategias.getServerTF().setText(server);
-            conexion.principal.estrategias.cargarArchivo();
+            conexion.principal.estrategias.cargarArchivo(server+"_strategies.txt");
             conexion.principal.estrategias.filtrarEstrategias();
             conexion.principal.estrategias.cargarTabla();
             conexion.principal.getTabPanel().setEnabledAt(1,true);
@@ -361,7 +361,7 @@ public class ConectadoGUI extends javax.swing.JPanel {
             conexion.principal.setCurrentServer(conexion.db);
             serverTF.setText(conexion.db);
             conexion.principal.estrategias.getServerTF().setText(conexion.db);
-            conexion.principal.estrategias.cargarArchivo();
+            conexion.principal.estrategias.cargarArchivo(conexion.db+"_strategies.txt");
             conexion.principal.estrategias.filtrarEstrategias();
             conexion.principal.estrategias.cargarTabla();
             conexion.principal.getTabPanel().setEnabledAt(1,true);

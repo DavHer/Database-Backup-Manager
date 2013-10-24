@@ -360,7 +360,7 @@ public class CrearEditarEstrategiaGUI extends javax.swing.JFrame {
         estrategias.getContenedorEstrategia().getEstrategias().add(e);
         estrategias.filtrarEstrategias();
         estrategias.cargarTabla();
-        estrategias.guardarArchivo();
+        estrategias.guardarArchivo(estrategias.principal.getCurrentServer()+"_strategies.txt");
         this.dispose();
       
     }//GEN-LAST:event_aceptBotonActionPerformed

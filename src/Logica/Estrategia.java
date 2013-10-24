@@ -85,7 +85,7 @@ public class Estrategia implements Serializable{
         String dirFile="";
         if(c!=null){
             dirFile=c.getRMANScriptDir();
-            spool += "SPOOL LOG to '"+c.getRMANLogDir()+"\\"+nombre+".txt' append;";
+            spool += "SPOOL LOG to '"+c.getRMANLogDir()+"\\"+nombre+"_log.txt' append;";
             System.out.println(spool);
             
             dirBackup= "CONFIGURE CONTROLFILE AUTOBACKUP ON;\n" +
@@ -122,12 +122,14 @@ public class Estrategia implements Serializable{
                     comando += " plus archivelog ";
             }
             try{
-                FileWriter fstream = new FileWriter(dirFile+"\\"+getFile(),true);
-                System.out.println(dirFile+getFile());
+                file = dirFile+"\\"+getFile();
+                FileWriter fstream = new FileWriter(file,true);
+                
+                System.out.println(file);
                 BufferedWriter out = new BufferedWriter(fstream);
                 server = db;
                 String write="";
-                write += "connect target "+user+"/"+pass+"@"+db+"\n";
+                write += "connect target "+user+"/"+pass+"@XE\n";
                 write += spool+"\n";
                 write += "run{\n";
                 write += dirBackup+"\n";

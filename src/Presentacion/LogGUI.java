@@ -4,6 +4,17 @@
  */
 package Presentacion;
 
+import Logica.Configuracion;
+import Logica.Estrategia;
+import java.awt.Dimension;
+import java.awt.Toolkit;
+import java.awt.Window;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.util.Date;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author David-PC
@@ -13,8 +24,78 @@ public class LogGUI extends javax.swing.JFrame {
     /**
      * Creates new form LogGUI
      */
-    public LogGUI() {
+    PrincipalGUI principal;
+    
+    public LogGUI(Estrategia e, PrincipalGUI es) {
         initComponents();
+        centreWindow(this);
+        principal = es;
+        estrategiaTF.setText(e.getNombre());
+        serverTF.setText(e.server);
+        
+        Configuracion c = null;
+        c = es.configuraciones.buscar(es.getCurrentServer());
+        if(c==null){
+            c = es.configuraciones.getConfigLocal();
+        }
+        String path = c.getRMANLogDir()+"\\"+e.getNombre()+"_log.txt";
+        logTA.setText(leerLog(path));
+        
+        String backups = c.getBackupDir();
+        escanearDirectorio(backups);
+    }
+    
+    public String leerLog(String path){
+        
+        File f = new File(path);
+        if(f.exists()) 
+        {
+            try {
+                BufferedReader br = new BufferedReader(new FileReader(path));
+                StringBuilder sb = new StringBuilder();
+                String line = br.readLine();
+
+                while (line != null) {
+                    sb.append(line);
+                    sb.append('\n');
+                    line = br.readLine();
+                }
+                br.close();
+                return sb.toString();
+                
+            }
+            catch(Exception e){
+                e.printStackTrace();
+                return "There is not a log file for this strategy.";
+            }
+        }
+        else{
+            return "There is not a log file for this strategy.";
+        }
+        
+        
+     }
+    public static void centreWindow(Window frame) {
+        Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
+        int x = (int) ((dimension.getWidth() - frame.getWidth()) / 2);
+        int y = (int) ((dimension.getHeight() - frame.getHeight()) / 2);
+        frame.setLocation(x, y);
+    }
+    
+    public void escanearDirectorio(String path){
+        
+        File f = new File(path);
+        File[] files = f.listFiles();
+        if (files != null) {
+            for (File child : files) {
+                Date d = new Date(child.lastModified());
+                ((DefaultTableModel)backupT.getModel()).addRow(new Object[]{child.getName(),d.toString()});
+
+            }
+        }
+        else{
+            System.out.println(path+" no se listo");
+        }
     }
 
     /**
@@ -27,27 +108,29 @@ public class LogGUI extends javax.swing.JFrame {
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        estrategiaTF = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        logTA = new javax.swing.JTextArea();
         jLabel3 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        backupT = new javax.swing.JTable();
+        jLabel4 = new javax.swing.JLabel();
+        serverTF = new javax.swing.JTextField();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        jLabel1.setText("Strategy");
+        jLabel1.setText("Strategy:");
 
         jLabel2.setText("RMAN Log");
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane1.setViewportView(jTextArea1);
+        logTA.setColumns(20);
+        logTA.setRows(5);
+        jScrollPane1.setViewportView(logTA);
 
         jLabel3.setText("Backup");
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        backupT.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -70,7 +153,15 @@ public class LogGUI extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane2.setViewportView(jTable1);
+        jScrollPane2.setViewportView(backupT);
+
+        jLabel4.setText("Server:");
+
+        serverTF.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                serverTFActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -79,19 +170,20 @@ public class LogGUI extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1)
+                    .addComponent(jLabel2)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 340, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel2))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel3)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 297, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(estrategiaTF, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel4)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(serverTF, javax.swing.GroupLayout.PREFERRED_SIZE, 235, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel3)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 579, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -99,65 +191,38 @@ public class LogGUI extends javax.swing.JFrame {
                 .addGap(19, 19, 19)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(estrategiaTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel4)
+                    .addComponent(serverTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(jLabel3))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 493, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(LogGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(LogGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(LogGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(LogGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
+    private void serverTFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_serverTFActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_serverTFActionPerformed
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new LogGUI().setVisible(true);
-            }
-        });
-    }
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTable backupT;
+    private javax.swing.JTextField estrategiaTF;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextArea logTA;
+    private javax.swing.JTextField serverTF;
     // End of variables declaration//GEN-END:variables
 }

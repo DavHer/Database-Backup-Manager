@@ -4,6 +4,7 @@
  */
 package Presentacion;
 
+import Logica.Configuracion;
 import Logica.ContenedorEstrategia;
 import Logica.Estrategia;
 import Logica.Horario;
@@ -43,10 +44,14 @@ public class EstrategiasGUI extends javax.swing.JPanel {
              }
          }
     }
-    public void cargarArchivo(){
+    public void cargarArchivo(String path){
         try
         {
-           FileInputStream fileIn = new FileInputStream("strategies.txt");
+           Configuracion c = principal.configuraciones.buscar(principal.getCurrentServer());
+           if(c==null){
+               c = principal.configuraciones.getConfigLocal();
+           }
+           FileInputStream fileIn = new FileInputStream(c.getStrategiesDir()+"\\"+path);
            ObjectInputStream in = new ObjectInputStream(fileIn);
            ContenedorEstrategia cla;
            cla = (ContenedorEstrategia) in.readObject();
@@ -61,9 +66,13 @@ public class EstrategiasGUI extends javax.swing.JPanel {
         }
     }
     
-    public void guardarArchivo(){
+    public void guardarArchivo(String path){
         try {
-            FileOutputStream fileOut = new FileOutputStream("strategies.txt");
+            Configuracion c = principal.configuraciones.buscar(principal.getCurrentServer());
+            if(c==null){
+                c = principal.configuraciones.getConfigLocal();
+            }
+            FileOutputStream fileOut = new FileOutputStream(c.getStrategiesDir()+"\\"+path);
             ObjectOutputStream out = new ObjectOutputStream(fileOut);
 
             out.writeObject(contenedorEstrategia);
@@ -200,6 +209,11 @@ public class EstrategiasGUI extends javax.swing.JPanel {
         });
 
         jButton3.setText("Log");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         jButton4.setText("Change Status");
         jButton4.addActionListener(new java.awt.event.ActionListener() {
@@ -306,7 +320,7 @@ public class EstrategiasGUI extends javax.swing.JPanel {
                         contenedorEstrategia.getEstrategias().get(i).setEstatus(true);
                         estrategyT.getModel().setValueAt("Active", index, 4);
                     }
-                    guardarArchivo();
+                    guardarArchivo(principal.getCurrentServer()+"_strategies.txt");
                     break;
                 }
             }
@@ -316,6 +330,25 @@ public class EstrategiasGUI extends javax.swing.JPanel {
         }
         
     }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        
+        int index = estrategyT.getSelectedRow();
+        if(index>=0){
+            String nombre = (String)estrategyT.getModel().getValueAt(index,0);
+            for(int i=0;i<contenedorEstrategia.getEstrategias().size();i++){
+                if(contenedorEstrategia.getEstrategias().get(i).getNombre().equals(nombre)){
+                    LogGUI log = new LogGUI(contenedorEstrategia.getEstrategias().get(i), principal);
+                    log.setVisible(true);
+                    break;
+                }
+            }
+        }
+        else{
+            JOptionPane.showMessageDialog(this, "Select a strategy", "Error", JOptionPane.WARNING_MESSAGE);
+        }
+        
+    }//GEN-LAST:event_jButton3ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTable estrategyT;
